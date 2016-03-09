@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="xlsStyles.css">
+<script lang="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/shim.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/ExcelToJsDate.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/jszip.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/xlsx.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/ods.js"></script>
+<script lang="javascript" src="https://dl.dropboxusercontent.com/u/95756267/FileSaver.js"></script>
+<script lang="javascript" src="xls_worker.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="drag-and-drop">Drag and Drop your xls. file here. 1 Sheet processing only for now.</div>
+		<div id="textarea">Click the lines \ rows or any cells to highlight the range for changes.<br/>
+		To manually set the range, here's the example:<br/><br/> <span> M4-M34 : 100</span><br/>
+		<br/>Where <br/><br/>(1) The <span>M4-M34</span> stands for the specific range you are targeting for the change of the automated value changed;<br/><br/>
+		and (2) after the semi-column, the new value to assign to the range, i.e., <span>100</span>, is to be set. <br/>
+		To set a new date value, follow this example:<br/><br/> <span> M4-M34 : new Date('Mon Mar 01 2016 10:00:00')</span><br/>
+		<br/>Where: <br/><br/>(3) The <span>M4-M34</span> stands for the specific range you are targeting for the change of the automated value changed;<br/><br/>
+		and (4) after the semi-column, the new Date value is set to assign to the given range, i.e., <span>new Date('Mon Mar 01 2016 10:00:00')</span>.<br/>
+		<textarea>Begin typing here</textarea>
+		<button>Process the Workbook!</button>
+		</div>
+		<div id="table-preview">
+			<table>
+				<thead>
+					<tr></tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		
+		</div>
+	</div>
+</body>
+</html>
