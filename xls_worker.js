@@ -6,11 +6,21 @@ var config = {
 	newVal : '',
 	wb : '',
 	f : '',
+	fnArr : [function(el){
+			$(el).css('background-color') !== "rgba(0, 0, 0, 0)" ? 
+			$(el).css('background-color', '') :
+			$(el).css('background-color', '#CCEEFF');
+		}],
 	defPreventer : function(e) {
          e.originalEvent.stopPropagation();
-		e.originalEvent.preventDefault();
+    	 e.originalEvent.preventDefault();
+		 config.fnArr.forEach(function(i, j){
+			 if(typeof i == 'function') {
+				 i(e.target);
+			 }
+		 });
+		 config.fnArr = [];
     }, 
-	
 	init : function(){
 		config.helper = [];
 		$('#drag-and-drop').on(
@@ -100,7 +110,6 @@ var config = {
 						}
 					});
 				});
-			/* var zWhat = {'Sheet1' : [{'M4' : '100'}, {'M8' : '1000'}, {'M13' : '10'}, {'M20' : 50}, {'M23' : 44}, {'M31' : 45}, {'M34' : 99}, {'M5' : JSDateToExcelDate(new Date().getTime())}]} */
 			if(config.helper.length) {
 				Object.keys(config.theWhat).forEach(function(i, j) {
 					config.theWhat[i] = [];
@@ -111,7 +120,6 @@ var config = {
 					});
 				});
 			}
-			
 			}else if(trgt.getAttribute('linenum') && $(trgt).closest('tbody').length) {
 				config.lineNum = trgt.getAttribute('lineNum').match(/\d+/);
 				$('tbody tr').each(function(){
@@ -121,8 +129,6 @@ var config = {
 						}
 					});
 				});
-				
-				/* var zWhat = {'Sheet1' : [{'M4' : '100'}, {'M8' : '1000'}, {'M13' : '10'}, {'M20' : 50}, {'M23' : 44}, {'M31' : 45}, {'M34' : 99}, {'M5' : JSDateToExcelDate(new Date().getTime())}]} */				
 				if(config.helper.length) {
 					Object.keys(config.theWhat).forEach(function(i, j){
 						config.theWhat[i] = [];
@@ -191,7 +197,7 @@ $(document).ready(function() {
 	config.init();
 $('#drag-and-drop').on(
     'drop',
-    function(e){
+    function(e) {
 		config.defPreventer(e);
         if(e.originalEvent.dataTransfer) {
             if(e.originalEvent.dataTransfer.files.length) {
@@ -217,6 +223,16 @@ $('#drag-and-drop').on(
 					config.htmlize();
 				};
 				reader.readAsBinaryString(config.f);
+				config.fnArr.push(function(el){
+					$(el).css('background-color') !== "rgba(0, 0, 0, 0)" ? 
+					$(el).css('background-color', '') :
+					$(el).css('background-color', '#CCEEFF');
+				});
+				config.fnArr.forEach(function(i, j){
+					 if(typeof i == 'function') {
+						 i(e.target);
+					 }
+				 });
             }
         }
     }
@@ -226,7 +242,7 @@ $('#drag-and-drop').on(
 		this.value = '';	
 	});
 
-	$('button').on('click', function() {
+	$('#process_wb').on('click', function() {
 		var val = $('textarea').val();
 		if(val &&  $('tbody').html() && $('textarea').val().match(/^\n?\s?\D+?\d+?\s?(?=[-])\s?[-]\s?\D+\d+\s?[:]\s?.*/)) {
 			if(val.match(/new Date/) && $('textarea').val().match(/^\n?\s?\D+?\d+?\s?(?=[-])\s?[-]\s?\D+\d+\s?[:]\s?.*/)){
@@ -265,7 +281,12 @@ $('#drag-and-drop').on(
 					config.processWb();
 		}		
 	});
-
-})
+	$('#clear_wb').on('click', function(e){
+		$('table thead tr').html('');
+		$('table tbody').html('');
+	});
+	
+	
+});
 
 
